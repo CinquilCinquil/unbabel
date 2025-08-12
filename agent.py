@@ -8,6 +8,7 @@ reward_config = {
     "invalid_offer_penalty" : 1,
     "invalid_stop_offering_penalty" : 1,
     "invalid_drop_piece_penalty" : 1,
+    "correct_pick_up_reward" : 1,
     "successful_offer_reward" : 1,
     "accept_piece_reward" : 3,
     "piece_found_reward" : 20,
@@ -112,6 +113,7 @@ class Agent:
                 if piece.x == self.x and piece.y == self.y:
                     if piece.color == self.color:
                         self.piece_in_hand = piece
+                        self.reward += reward_config["correct_pick_up_reward"]
                     elif self.is_learning_agent():
                         self.reward -= reward_config["invalid_pick_up_penalty"]
                     break

@@ -16,14 +16,18 @@ env = CustomEnv(env=game_env)
 
 model_path = "saves/coolmodel.save"
 
-model = MultiOutputPPO(policy='MIMOPolicy', env=env, verbose=1)
+model = MultiOutputPPO(policy='MIMOPolicy', env=env, verbose=1, tensorboard_log="logs/")
 if not os.path.exists(model_path):
     model.save(model_path)
+else:
+    model = model.load(model_path, env=env)
 
-for _ in range(1000):
+for i in range(1000):
+    print(f"Iteration {i}")
     game_env.init_instances(model.load(model_path))
 
-    model.learn(total_timesteps=2048 * 5, progress_bar=True)
+    model.learn(total_timesteps=2048 * 5, progress_bar=True, tb_log_name="MO_PPO")
+    print("Saving...")
     model.save(model_path)
 
 """
