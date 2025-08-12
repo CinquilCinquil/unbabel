@@ -14,7 +14,7 @@ game_env = GameEnv(
                     grid_size = 12)
 env = CustomEnv(env=game_env)
 
-model_path = "coolmodel.save"
+model_path = "saves/coolmodel.save"
 
 model = MultiOutputPPO(policy='MIMOPolicy', env=env, verbose=1)
 if not os.path.exists(model_path):
