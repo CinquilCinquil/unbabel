@@ -88,6 +88,7 @@ class GameEnv:
     def reset(self):
         self.step_ = 0
         self.ep_reward = 0
+        self.collective_reward = 0
 
         #TODO: generalize this for color teams of different sizes
         agent_colors = [(i % self.n_colors) + 1 for i in range(self.n_agents)]
@@ -112,8 +113,8 @@ class GameEnv:
         obs = self.learning_agent.process_obs(self.env_info)
 
         if self.step_ >= self.max_steps:
-            print("END OF EPISODE", "TOTAL REWARD: ", self.ep_reward)
-            return obs, reward, True, False
+            print("END OF EPISODE", "TOTAL REWARD: ", self.ep_reward + self.collective_reward)
+            return obs, self.collective_reward, True, False
 
         # Start of Frame
 
@@ -145,7 +146,7 @@ class GameEnv:
                 agent = self.agents[agent_id - 1]
 
                 if not agent.is_learning_agent():
-                    agent.step(action, env_info)
+                    self.collective_reward += agent.step(action, env_info)
                 else:
                     reward = agent.step(action, env_info)
 
