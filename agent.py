@@ -123,6 +123,7 @@ class Agent:
             target_not_being_offered = target_agent.agent_with_offer == None
             target_in_distance = calculate_dis(self.x, self.y, target_agent.x, target_agent.y) <= Agent.vision_dis()
 
+            reward = 0
             if target_not_being_offered and target_in_distance:
                 target_agent.agent_with_offer = self.id
                 target_agent.piece_being_offered = self.piece_in_hand
